@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <title>page-gz</title>
@@ -13,6 +12,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="./main.css"  />
+    <link rel="stylesheet" href="./css/academicons.css"/>
   </head>
   <body>
     <div class="container">
@@ -47,8 +47,11 @@
       <nav class="navbar fixed-bottom navbar-light text-center">
         <div style="display: inline">
           <i class="fa fa-github" style="font-size: 36px; margin-right: 1%"></i>
-          <a href="https://www.linkedin.com/in/gza10/">
+          <a href="https://www.linkedin.com/in/gza10/" target="_blank" style="margin-right: 1%">
             <i class="fa fa-linkedin" style="font-size: 36px"></i>
+          </a>
+          <a href="https://www.researchgate.net/profile/Guanchen_Zhang" target="_blank">
+            <i class="ai ai-researchgate ai-2x"></i>
           </a>
         </div>
       </nav>
@@ -158,8 +161,7 @@
             'title': 'Freelancing'
           }
         ];
-        // randomArray = (length, max) => [...new Array(length)]
-        //            .map(() => Math.round(Math.random() * max));
+
         let randomArray = Array.from(Array(16).keys());
         randomArray = shuffle(randomArray);
         let numOfCol = 5;
@@ -176,7 +178,7 @@
             newElement.innerHTML = "<i class='material-icons md-36' id='dynamic-icons' data-toggle='tooltip' title=" +
                                   `'${icons[val].title}'` + ">" + icons[val].name + "</i>";
           } else {
-            newElement.innerHTML = "<img id='robotic-icon' src='Robot-48.png' width='24px' height='24px' data-toggle='tooltip' title=" +
+            newElement.innerHTML = "<img id='robotic-icon' src='./images/Robot-48.png' width='24px' height='24px' data-toggle='tooltip' title=" +
                                     `'${icons[val].title}'` + ">";
           }
           document.getElementById('hidden-row').appendChild(newElement);
@@ -245,7 +247,7 @@
         const marker1 = new google.maps.Marker({
           position: campusBurnaby,
           map: map,
-          icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+          icon: "./images/red-dot.png"
         });
 
         // const marker2 = new google.maps.Marker({
