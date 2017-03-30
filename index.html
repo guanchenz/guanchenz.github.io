@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>page-gz</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./main.css"  />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="hide()"><p visibility='hidden'><font size='5'><</font></p></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="show()"><p visibility='hidden'><font size='5'>></font></p></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="content" id="content">
+        <font size='12'>Guanchen</font><font size='2'> 行紀</font><br/>
+        <div class="sub-content">
+          <span>mechatronic engineer | software developer | constant learner</span><br />
+          <span>electric vehicle specialist</span><br />
+          <a href="#" onclick="show()"><i class="material-icons nav-angle">keyboard_arrow_down</i></a>
+        </div>
+      </div>
+
+      <div class="hidden-content" id="hidden-content">
+        <font size='2' style="color: #5D5A58">what I do</font><br/>
+
+        <div class="row py-3 px-5" id="hidden-row">
+
+        </div>
+      </div>
+
+      <nav class="navbar fixed-bottom navbar-light text-center">
+        <div style="display: inline">
+          <i class="fa fa-github" style="font-size: 36px; margin-right: 1%"></i>
+          <a href="https://www.linkedin.com/in/gza10/">
+            <i class="fa fa-linkedin" style="font-size: 36px"></i>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Location</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script type="text/javascript">
+      function shuffle(a) {
+          for (let i = a.length; i; i--) {
+              let j = Math.floor(Math.random() * i);
+              [a[i - 1], a[j]] = [a[j], a[i - 1]];
+          }
+          return a;
+      }
+
+      function show() {
+        document.getElementById('hidden-content').style.height = "auto";
+        document.getElementById('hidden-content').style.opacity = "1";
+        document.getElementById('content').style.marginTop = "2%";
+
+        $(".sub-content").fadeOut(function() {
+          $(this).html("<font size='2'>Education: <a href='#' data-toggle='modal' data-target='#myModal'>Simon Fraser University, BC, Canada</a></font><br/>"
+          + "<font size='2'>MASc. & BASc. in Mechatronic Systems Engineering</font><br />"
+          + "<a href='#' onclick='hide()'><i class='material-icons nav-angle'>keyboard_arrow_up</i></a>").fadeIn();
+        });
+
+        const icons = [
+          {
+            'name': 'desktop_windows',
+            'title': 'Front-end: React, JavaScript, HTML'
+          },
+          {
+            'name': 'map',
+            'title': 'GIS'
+          },
+          {
+            'name': 'power',
+            'title': 'Power system simulation, green energy system, SMI, DR'
+          },
+          {
+            'name': 'school',
+            'title': 'Research: optimization, EV simulation, smart charging, data mining'
+          },
+          {
+            'name': 'drive_eta',
+            'title': 'EV: modeling, simulation, optimization, Formula E'
+          },
+          {
+            'name': 'code',
+            'title': 'Python, JavaScript, MATLAB/Simulink, Java, C'
+          },
+          {
+            'name': 'robotics',
+            'title': 'Robotics, control, manufacturing'
+          },
+          {
+            'name': 'home',
+            'title': 'Smart home: HAN devices'
+          },
+          {
+            'name': 'ev_station',
+            'title': 'EV charging infrastructure: smart charging, testing, consulting'
+          },
+          {
+            'name': 'developer_board',
+            'title': 'Embedded system, control'
+          },
+          {
+            'name': 'build',
+            'title': 'Mechanical: drawing, FEA, machine design, thermo'
+          },
+          {
+            'name': 'trending_up',
+            'title': 'Machine learning'
+          },
+          {
+            'name': 'developer_mode',
+            'title': 'React Native'
+          },
+          {
+            'name': 'insert_chart',
+            'title': 'Data: multivariate analysis'
+          },
+          {
+            'name': 'layers',
+            'title': 'Back-end: Meteor, GraphQL, MongoDB, Flask, Docker'
+          },
+          {
+            'name': 'terrain',
+            'title': 'Freelancing'
+          }
+        ];
+        // randomArray = (length, max) => [...new Array(length)]
+        //            .map(() => Math.round(Math.random() * max));
+        let randomArray = Array.from(Array(16).keys());
+        randomArray = shuffle(randomArray);
+        let numOfCol = 5;
+        randomArray.forEach((val, idx) => {
+          if ([0, 13].includes(idx)) {
+            let emptyElement = document.createElement('div');
+            emptyElement.className = "col";
+            emptyElement.innerHTML = "";
+            document.getElementById('hidden-row').appendChild(emptyElement);
+          }
+          let newElement = document.createElement('div');
+          newElement.className = "col";
+          if (icons[val].name !== 'robotics') {
+            newElement.innerHTML = "<i class='material-icons md-36' id='dynamic-icons' data-toggle='tooltip' title=" +
+                                  `'${icons[val].title}'` + ">" + icons[val].name + "</i>";
+          } else {
+            newElement.innerHTML = "<img id='robotic-icon' src='Robot-48.png' width='24px' height='24px' data-toggle='tooltip' title=" +
+                                    `'${icons[val].title}'` + ">";
+          }
+          document.getElementById('hidden-row').appendChild(newElement);
+          if ([2, 15].includes(idx)) {
+            let emptyElement = document.createElement('div');
+            emptyElement.className = "col";
+            emptyElement.innerHTML = "";
+            document.getElementById('hidden-row').appendChild(emptyElement);
+          }
+          if ([2, 7, 12].includes(idx)) {
+            let rowDivider = document.createElement('div');
+            rowDivider.className = "w-100 py-3";
+            document.getElementById('hidden-row').appendChild(rowDivider);
+          }
+        })
+      }
+
+      function hide() {
+        document.getElementById('hidden-content').style = "height: 0; opacity: 0";
+        document.getElementById('content').style.marginTop = "15%";
+        setTimeout(() => {
+          document.getElementById('hidden-row').innerHTML = "";
+        }, 1000);
+
+        $(".sub-content").fadeOut(function() {
+          $(this).html("<span>mechatronic engineer | software developer | constant learner</span><br/><span>electric vehicle specialist</span><br /><a href='#' onclick='show()'><i class='material-icons nav-angle'>keyboard_arrow_down</i></a>").fadeIn();
+        });
+      }
+    </script>
+
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+    <script>
+      $(document).ready(function() {
+          $("body").tooltip({
+            selector: '[data-toggle=tooltip]',
+            placement: 'bottom',
+            container: 'body'
+          });
+      });
+      $(document).ready(function() {
+          $("body").popover({
+            selector: '[data-toggle=popover]',
+            placement: 'right',
+            container: 'body'
+          });
+      });
+    </script>
+
+    <script>
+      let map;
+      const campusBurnaby = {lat: 49.278120, lng: -122.919876};
+      const campusSurrey = {lat: 49.187778, lng: -122.848990};
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 49.201500+4, lng: -122.913489-10},
+          zoom: 5,
+          mapTypeControl: false
+        });
+
+        const marker1 = new google.maps.Marker({
+          position: campusBurnaby,
+          map: map,
+          icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        });
+
+        // const marker2 = new google.maps.Marker({
+        //   position: campusSurrey,
+        //   map: map,
+        //   icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        // });
+
+        // Set the map's style
+        map.setOptions({styles: styles["retro"]});
+      }
+
+      const styles = {
+        default: null,
+        retro: [
+          {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
+          {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
+          {elementType: 'labels.text.stroke', stylers: [{color: '#f5f1e6'}]},
+          {
+            featureType: 'administrative',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#c9b2a6'}]
+          },
+          {
+            featureType: 'administrative.land_parcel',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#dcd2be'}]
+          },
+          {
+            featureType: 'administrative.land_parcel',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#ae9e90'}]
+          },
+          {
+            featureType: 'landscape.natural',
+            elementType: 'geometry',
+            stylers: [{color: '#dfd2ae'}]
+          },
+          {
+            featureType: 'poi',
+            elementType: 'geometry',
+            stylers: [{color: '#dfd2ae'}]
+          },
+          {
+            featureType: 'poi',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#93817c'}]
+          },
+          {
+            featureType: 'poi.park',
+            elementType: 'geometry.fill',
+            stylers: [{color: '#a5b076'}]
+          },
+          {
+            featureType: 'poi.park',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#447530'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{color: '#f5f1e6'}]
+          },
+          {
+            featureType: 'road.arterial',
+            elementType: 'geometry',
+            stylers: [{color: '#fdfcf8'}]
+          },
+          {
+            featureType: 'road.highway',
+            elementType: 'geometry',
+            stylers: [{color: '#f8c967'}]
+          },
+          {
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#e9bc62'}]
+          },
+          {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry',
+            stylers: [{color: '#e98d58'}]
+          },
+          {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#db8555'}]
+          },
+          {
+            featureType: 'road.local',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#806b63'}]
+          },
+          {
+            featureType: 'transit.line',
+            elementType: 'geometry',
+            stylers: [{color: '#dfd2ae'}]
+          },
+          {
+            featureType: 'transit.line',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#8f7d77'}]
+          },
+          {
+            featureType: 'transit.line',
+            elementType: 'labels.text.stroke',
+            stylers: [{color: '#ebe3cd'}]
+          },
+          {
+            featureType: 'transit.station',
+            elementType: 'geometry',
+            stylers: [{color: '#dfd2ae'}]
+          },
+          {
+            featureType: 'water',
+            elementType: 'geometry.fill',
+            stylers: [{color: '#b9d3c2'}]
+          },
+          {
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#92998d'}]
+          }
+        ]
+      };
+      $("#myModal").on("shown.bs.modal", function () {
+        google.maps.event.trigger(map, "resize");
+      });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTI5CvgMWtwuNDxAzL2crBAzLZ4f78TuE&callback=initMap"
+        async defer>
+    </script>
+
+  </body>
+</html>
