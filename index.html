@@ -13,6 +13,10 @@
 
     <link rel="stylesheet" type="text/css" href="./main.css"  />
     <link rel="stylesheet" href="./css/academicons.css"/>
+
+    <!-- canvas -->
+    <script type="text/javascript" src="canvas/drawLogo.js"></script>
+
   </head>
   <body>
     <div class="container">
@@ -28,7 +32,9 @@
       </div>
 
       <div class="content" id="content">
-        <font size='12'>Guanchen</font><font size='2'> 行紀</font><br/>
+        <canvas id="canvas-logo" width="400" height="400"></canvas>
+        <!-- <font size='12'>Guanchen</font><font size='2'> 行紀</font><br/> -->
+        <h2 style="font-family: KaiTi; margin-bottom: 0">行紀</h4><br/>
         <div class="sub-content">
           <span>mechatronic engineer | software developer | constant learner</span><br />
           <span>electric vehicle specialist</span><br />
@@ -198,7 +204,7 @@
 
       function hide() {
         document.getElementById('hidden-content').style = "height: 0; opacity: 0";
-        document.getElementById('content').style.marginTop = "15%";
+        document.getElementById('content').style.marginTop = "5%";
         setTimeout(() => {
           document.getElementById('hidden-row').innerHTML = "";
         }, 1000);
@@ -207,8 +213,28 @@
           $(this).html("<span>mechatronic engineer | software developer | constant learner</span><br/><span>electric vehicle specialist</span><br /><a href='#' onclick='show()'><i class='material-icons nav-angle'>keyboard_arrow_down</i></a>").fadeIn();
         });
       }
+
     </script>
 
+    <script type="text/javascript">
+      // const canvas = document.getElementById('canvas-logo');
+      // if (canvas.getContext) {
+      //   // window.requestAnimationFrame(draw);
+      //   const ctx = canvas.getContext('2d');
+      //   // drawLogo(ctx);
+      //   window.requestAnimationFrame(drawLogo(ctx));
+      // }
+      // window.requestAnimationFrame(draw);
+      function draw() {
+        const canvas = document.getElementById('canvas-logo');
+        if (canvas.getContext) {
+          // window.requestAnimationFrame(draw);
+          const ctx = canvas.getContext('2d');
+          drawLogo(ctx);
+        }
+      }
+      draw();
+    </script>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
