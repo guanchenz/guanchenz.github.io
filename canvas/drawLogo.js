@@ -3,12 +3,12 @@ function drawLogo(ctx) {
     ctx.clearRect(0, 0, 400, 400);
 
     ctx.beginPath();
-    const radius = 10;
+    const radius = 3;
 
     const x0 = 350;
     const y0 = 200;
     // ctx.fillStyle = "#3F51B5";
-    ctx.fillStyle = "#37474F";
+    ctx.fillStyle = 'rgba(158, 158, 158, 0.2)';
     ctx.arc(x0, y0, radius, 0, Math.PI * 2, false);
     ctx.fill();
 
@@ -43,17 +43,9 @@ function drawLogo(ctx) {
     ctx.fill();
 
     // draw lines
-
-    ctx.lineWidth = "10";
-    // ctx.strokeStyle = "#3F51B5";
-    ctx.strokeStyle = "#37474F";
+    ctx.lineWidth = "0.1";
+    ctx.strokeStyle = 'rgba(158, 158, 158, 0.2)';
     ctx.moveTo(x0, y0);
-    // ctx.lineTo(x1, y1);
-    // ctx.lineTo(x2, y2);
-    // ctx.lineTo(x3, y3);
-    // ctx.lineTo(x4, y4);
-    // ctx.lineTo(x5, y5);
-    // ctx.stroke();
 
     const verts = [
       { x: 350, y: 200 },
@@ -68,25 +60,15 @@ function drawLogo(ctx) {
     const vertices = calcWaypoints();
     drawLine();
 
-    // ctx.translate(x5, y5);
-    // var time = new Date();
-    // ctx.rotate((Math.PI / 600));
-    // ctx.translate(-x5, -y5);
-
-    // window.requestAnimationFrame(draw);
-
     function drawLine() {
       let requestId;
       if (idx <= vertices.length-1) {
         requestId = requestAnimationFrame(drawLine);
-
         // ctx.beginPath();
         ctx.moveTo(vertices[idx-1].x, vertices[idx-1].y);
         ctx.lineTo(vertices[idx].x, vertices[idx].y);
         ctx.stroke();
         idx++;
-      } else {
-        // window.cancelAnimationFrame(requestId);
       }
     }
 

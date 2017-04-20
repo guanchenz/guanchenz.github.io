@@ -14,45 +14,64 @@
     <link rel="stylesheet" type="text/css" href="./main.css"  />
     <link rel="stylesheet" href="./css/academicons.css"/>
 
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
     <!-- canvas -->
     <script type="text/javascript" src="canvas/drawLogo.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- <script type="text/javascript" src="canvas/particles.min.js"></script> -->
 
   </head>
   <body>
     <div class="container">
+      <div id="particles-js"></div>
       <div class="header">
-        <ul class="nav justify-content-end">
+        <ul class="nav justify-content-end hidden-xs-down">
           <li class="nav-item">
             <a class="nav-link active" href="#" onclick="hide()"><p visibility='hidden'><font size='5'><</font></p></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="show()"><p visibility='hidden'><font size='5'>></font></p></a>
+            <a class="nav-link" href="#" onclick="show(this)"><p visibility='hidden'><font size='5'>></font></p></a>
           </li>
         </ul>
+        <div class="hidden-sm-up">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" visibility="hidden"><p visibility='hidden'><font size='5'>-</font></p></a>
+            </li>
+          </ul>
+        </div>
       </div>
 
+      <canvas class="hidden-xs-down" id="canvas-logo" width="400" height="400"></canvas>
+
       <div class="content" id="content">
-        <canvas id="canvas-logo" width="400" height="400"></canvas>
         <!-- <font size='12'>Guanchen</font><font size='2'> 行紀</font><br/> -->
         <h2 style="font-family: KaiTi; margin-bottom: 0">行紀</h4><br/>
         <div class="sub-content">
           <span>mechatronic engineer | software developer | constant learner</span><br />
           <span>electric vehicle specialist</span><br />
-          <a href="#" onclick="show()"><i class="material-icons nav-angle">keyboard_arrow_down</i></a>
+          <a class="hidden-xs-down" href="#" onclick="show(this)"><i class="material-icons nav-angle">keyboard_arrow_down</i></a>
         </div>
       </div>
 
-      <div class="hidden-content" id="hidden-content">
-        <font size='2' style="color: #5D5A58">what I do</font><br/>
+      <div class="hidden-content hidden-xs-down" id="hidden-content">
+        <font size='2' style="color: #263238">what I do</font><br/>
 
-        <div class="row py-3 px-5" id="hidden-row">
+        <div class="hidden-xs-down">
+          <div class="row py-3 px-5" id="hidden-row"></div>
+        </div>
 
+        <div class="hidden-sm-up">
+          <div class="hidden-row-alt" id="hidden-row-alt"></div>
         </div>
       </div>
 
       <nav class="navbar fixed-bottom navbar-light text-center">
         <div style="display: inline">
-          <i class="fa fa-github" style="font-size: 36px; margin-right: 1%"></i>
+          <a href="https://github.com/guanchenz" target="_blank" style="margin-right: 1%">
+            <i class="fa fa-github" style="font-size: 36px"></i>
+          </a>
           <a href="https://www.linkedin.com/in/gza10/" target="_blank" style="margin-right: 1%">
             <i class="fa fa-linkedin" style="font-size: 36px"></i>
           </a>
@@ -90,17 +109,38 @@
           return a;
       }
 
-      function show() {
-        document.getElementById('hidden-content').style.height = "auto";
-        document.getElementById('hidden-content').style.opacity = "1";
-        document.getElementById('content').style.marginTop = "2%";
+      function show(link) {
+        // prevent double click
+        link.onclick = function(event) {
+          event.preventDefault();
+        }
+        // rotate logo
+        let rotateCount = 0;
+        function rotateLogo() {
+          if (rotateCount <= 44/1) {
+            requestAnimationFrame(rotateLogo);
+            const canvas = document.getElementById('canvas-logo');
+            const ctx = canvas.getContext('2d');
+            let canvasTmp = document.createElement("canvas");
+            let ctxTmp = canvasTmp.getContext('2d');
+            canvasTmp.width = canvas.width;
+            canvasTmp.height = canvas.height;
+            canvasTmp.style.marginTop = 0;
+            ctxTmp.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.moveTo(0, 0);
+            ctx.translate(canvas.width/2, canvas.height/2);
+            ctx.rotate(-1 * Math.PI / 180);
+            ctx.translate(-canvas.width/2, -canvas.height/2);
+            ctx.drawImage(canvasTmp, 0, 0, canvas.width, canvas.height);
+            ctx.restore();
+            rotateCount++;
+          }
+        }
+        rotateLogo();
 
-        $(".sub-content").fadeOut(function() {
-          $(this).html("<font size='2'>Education: <a href='#' data-toggle='modal' data-target='#myModal'>Simon Fraser University, BC, Canada</a></font><br/>"
-          + "<font size='2'>MASc. & BASc. in Mechatronic Systems Engineering</font><br />"
-          + "<a href='#' onclick='hide()'><i class='material-icons nav-angle'>keyboard_arrow_up</i></a>").fadeIn();
-        });
-
+        // for web
         const icons = [
           {
             'name': 'desktop_windows',
@@ -168,38 +208,71 @@
           }
         ];
 
-        let randomArray = Array.from(Array(16).keys());
-        randomArray = shuffle(randomArray);
-        let numOfCol = 5;
-        randomArray.forEach((val, idx) => {
-          if ([0, 13].includes(idx)) {
-            let emptyElement = document.createElement('div');
-            emptyElement.className = "col";
-            emptyElement.innerHTML = "";
-            document.getElementById('hidden-row').appendChild(emptyElement);
-          }
-          let newElement = document.createElement('div');
-          newElement.className = "col";
-          if (icons[val].name !== 'robotics') {
-            newElement.innerHTML = "<i class='material-icons md-36' id='dynamic-icons' data-toggle='tooltip' title=" +
-                                  `'${icons[val].title}'` + ">" + icons[val].name + "</i>";
-          } else {
-            newElement.innerHTML = "<img id='robotic-icon' src='./images/Robot-48.png' width='24px' height='24px' data-toggle='tooltip' title=" +
-                                    `'${icons[val].title}'` + ">";
-          }
-          document.getElementById('hidden-row').appendChild(newElement);
-          if ([2, 15].includes(idx)) {
-            let emptyElement = document.createElement('div');
-            emptyElement.className = "col";
-            emptyElement.innerHTML = "";
-            document.getElementById('hidden-row').appendChild(emptyElement);
-          }
-          if ([2, 7, 12].includes(idx)) {
-            let rowDivider = document.createElement('div');
-            rowDivider.className = "w-100 py-3";
-            document.getElementById('hidden-row').appendChild(rowDivider);
-          }
-        })
+        // for mobile
+        const smcontent = [
+          'Web: React, Meteor, JavaScript, HTML, GraphQL, MongoDB, Flask, React Native',
+          'Research: optimization, EV modeling & simulation, Formula E, smart charging, data mining',
+          'Coding: Python, JavaScript, MATLAB/Simulink, Java, C',
+          'Power system: simulation, green energy system, SMI, DR, HAN',
+          'Mechatronics: mechanical design, FEA, embeded system, control, robotics'
+        ];
+
+        setTimeout(function() {
+          document.getElementById('canvas-logo').style.height = "0";
+          document.getElementById('canvas-logo').style.opacity = "0";
+
+          document.getElementById('hidden-content').style.height = "auto";
+          document.getElementById('hidden-content').style.opacity = "1";
+          document.getElementById('content').style.marginTop = "2%";
+
+          $(".sub-content").fadeOut(function() {
+            $(this).html("<font size='2'>Education: <a id='link-sfu' href='#' data-toggle='modal' data-target='#myModal'>Simon Fraser University, BC, Canada</a></font><br/>"
+            + "<font size='2'>MASc. & BASc. in Mechatronic Systems Engineering</font><br />"
+            + "<a href='#' onclick='hide()'><i class='material-icons nav-angle'>keyboard_arrow_up</i></a>").fadeIn();
+          });
+
+          let randomArray = Array.from(Array(16).keys());
+          randomArray = shuffle(randomArray);
+          let numOfCol = 5;
+          randomArray.forEach((val, idx) => {
+            if ([0, 13].includes(idx)) {
+              let emptyElement = document.createElement('div');
+              emptyElement.className = "col";
+              emptyElement.innerHTML = "";
+              document.getElementById('hidden-row').appendChild(emptyElement);
+            }
+            let newElement = document.createElement('div');
+            newElement.className = "col";
+            if (icons[val].name !== 'robotics') {
+              newElement.innerHTML = "<i class='material-icons md-36' id='dynamic-icons' data-toggle='tooltip' title=" +
+                                    `'${icons[val].title}'` + ">" + icons[val].name + "</i>";
+            } else {
+              newElement.innerHTML = "<img id='robotic-icon' src='./images/Robot-48.png' width='24px' height='24px' data-toggle='tooltip' title=" +
+                                      `'${icons[val].title}'` + ">";
+            }
+            document.getElementById('hidden-row').appendChild(newElement);
+            if ([2, 15].includes(idx)) {
+              let emptyElement = document.createElement('div');
+              emptyElement.className = "col";
+              emptyElement.innerHTML = "";
+              document.getElementById('hidden-row').appendChild(emptyElement);
+            }
+            if ([2, 7, 12].includes(idx)) {
+              let rowDivider = document.createElement('div');
+              rowDivider.className = "w-100 py-3";
+              document.getElementById('hidden-row').appendChild(rowDivider);
+            }
+          });
+        }, 1100);
+
+        // for small devices
+        let smElement = document.createElement('div');
+        smElement.innerHTML = "<ul>";
+        smcontent.forEach(item => {
+          smElement.innerHTML += `<li>${item}</li>`;
+        });
+        smElement.innerHTML += "</ul>";
+        document.getElementById('hidden-row-alt').appendChild(smElement)
       }
 
       function hide() {
@@ -207,34 +280,32 @@
         document.getElementById('content').style.marginTop = "5%";
         setTimeout(() => {
           document.getElementById('hidden-row').innerHTML = "";
+          document.getElementById('hidden-row-alt').innerHTML = "";
         }, 1000);
 
         $(".sub-content").fadeOut(function() {
-          $(this).html("<span>mechatronic engineer | software developer | constant learner</span><br/><span>electric vehicle specialist</span><br /><a href='#' onclick='show()'><i class='material-icons nav-angle'>keyboard_arrow_down</i></a>").fadeIn();
+          $(this).html("<span>mechatronic engineer | software developer | constant learner</span><br/><span>electric vehicle specialist</span><br /><a href='#' onclick='show(this)'><i class='material-icons nav-angle'>keyboard_arrow_down</i></a>").fadeIn();
         });
+
+        document.getElementById('canvas-logo').style.height = "150px";
+        document.getElementById('canvas-logo').style.opacity = "1";
+        draw();
       }
 
     </script>
 
     <script type="text/javascript">
-      // const canvas = document.getElementById('canvas-logo');
-      // if (canvas.getContext) {
-      //   // window.requestAnimationFrame(draw);
-      //   const ctx = canvas.getContext('2d');
-      //   // drawLogo(ctx);
-      //   window.requestAnimationFrame(drawLogo(ctx));
-      // }
-      // window.requestAnimationFrame(draw);
       function draw() {
         const canvas = document.getElementById('canvas-logo');
         if (canvas.getContext) {
-          // window.requestAnimationFrame(draw);
           const ctx = canvas.getContext('2d');
           drawLogo(ctx);
         }
       }
       draw();
     </script>
+
+    <script type="text/javascript" src="canvas/drawParticles.js"></script>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
